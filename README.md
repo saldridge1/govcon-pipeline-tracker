@@ -100,8 +100,10 @@ npm run build
 This project is part of an active data visualization learning practice — building skill at the intersection of design, data, and React development.
 
 Related work:
-- [Accessibility Design Checklist — WCAG 2.1 AA](https://www.figma.com/community/file/1622719524143767993) — Free Figma Community resource
+
+- [Benchline Framework](https://github.com/saldridge1/benchline-framework)
 - [Accountability by Design](https://github.com/saldridge1/benchline-framework) — Proposal-grade work breakdown framework
+- [Accessibility Design Checklist — WCAG 2.1 AA](https://www.figma.com/community/file/1622719524143767993) — Free Figma Community resource
 - [Portfolio](https://docsend.com/view/s/9bzhycnqab7k92nq) — Full practice documentation
 - [LinkedIn](https://www.linkedin.com/in/susanealdridge/) — Professional profile
 
