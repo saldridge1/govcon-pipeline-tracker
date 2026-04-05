@@ -10,7 +10,7 @@
 
 Government contracting success is built on math, not instinct. This tracker translates the core financial logic of GovCon pipeline management into an interactive data visualization — so every bid decision is grounded in Expected Value, ROI, and honest Pwin assessment rather than gut feeling.
 
-Built as a data visualization learning project and portfolio credential by **Susan E. Aldridge**, Founder & Principal of Team Design Studios / Eternal Graphx LLC (Est. 1999).
+Built as a data visualization learning project and portfolio credential by **Susan E. Aldridge**, Founder & Principal of Team Design Studios / Eternal Graphx LLC (Est. 1999). Community feedback is welcome — this is a living project.
 
 ---
 
@@ -139,6 +139,8 @@ Founder & Principal, Team Design Studios / Eternal Graphx LLC (Est. 1999)
 Staff UX Research & Design | AI Leadership | Enterprise Product Design & AI Integration
 
 *Bentonville, AR · Open to relocation*
+
+*Feedback and suggestions welcome — open an Issue to start a conversation.*
 
 ---
 
