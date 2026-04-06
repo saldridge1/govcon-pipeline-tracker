@@ -132,6 +132,14 @@ Related work:
 
 ---
 
+## Support This Work
+
+If this framework has been useful for your GovCon pursuits, consider buying me a coffee. It helps me keep building open source tools for the design and GovCon community.
+
+☕ [Buy Me a Coffee](https://buymeacoffee.com/teamdesignstudios)
+
+---
+
 ## About
 
 **Susan E. Aldridge**
