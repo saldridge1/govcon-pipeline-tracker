@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accountability by Design — Team Design Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F3EF;
+    --surface: #FFFFFF;
+    --surface-2: #F8F7F4;
+    --surface-3: #EEECEA;
+    --border: #E2E0D8;
+    --border-strong: #C8C5BA;
+    --text: #1C1B18;
+    --text-mid: #5A5850;
+    --text-light: #8C8A82;
+    --accent: #2A5BD7;
+    --accent-hover: #1E45A8;
+    --accent-light: #EEF2FC;
+    --gold: #B8860B;
+    --gold-bg: #FDFAED;
+    --green: #1A6B3C;
+    --green-bg: #EDFAF3;
+    --red: #B0280A;
+    --red-bg: #FEF5F5;
+    --yellow: #7A4A00;
+    --yellow-bg: #FFF8ED;
+    --rule: #CCCCCC;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.06);
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    text-align: center;
+    padding: 64px 24px 48px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--text-light);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .site-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .site-header .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--text-mid);
+    margin-bottom: 28px;
+  }
+  .field-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .field-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--surface-3);
+    color: var(--text-mid);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+  }
+  .bluf-banner {
+    background: var(--text);
+    color: white;
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 0;
+    text-align: left;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .bluf-banner strong {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* ── TABS ── */
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+  }
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-light);
+    background: none;
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px 40px;
+    margin-bottom: 24px;
+  }
+  .card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-subtitle {
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  /* ── FORM ── */
+  .form-grid { display: grid; gap: 20px; }
+  .form-grid-2 { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) {
+    .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+    .card { padding: 24px 20px; }
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-mid);
+    letter-spacing: 0.02em;
+  }
+  label .hint {
+    font-weight: 300;
+    color: var(--text-light);
+    font-size: 11px;
+    font-style: italic;
+  }
+  label .required { color: var(--accent); }
+
+  input[type="text"], input[type="number"], select, textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    width: 100%;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    line-height: 1.5;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(42,91,215,0.1);
+  }
+  textarea { resize: vertical; min-height: 72px; }
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%238C8A82' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  /* ── SCORE SELECTOR ── */
+  .score-selector {
+    display: flex;
+    gap: 8px;
+  }
+  .score-opt {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--surface);
+    color: var(--text-mid);
+    user-select: none;
+  }
+  .score-opt:hover { border-color: var(--accent); color: var(--accent); }
+  .score-opt.selected-1 { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .score-opt.selected-2 { background: var(--yellow-bg); border-color: var(--yellow); color: var(--yellow); }
+  .score-opt.selected-3 { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+
+  /* ── DELIVERABLE BLOCK ── */
+  .deliverable-block {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .deliverable-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .remove-btn {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-light);
+    font-size: 12px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .remove-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+
+  .perspective-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  @media (max-width: 640px) { .perspective-grid { grid-template-columns: 1fr; } }
+
+  .perspective-field {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+  }
+  .perspective-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .perspective-label .p-num {
+    background: var(--accent);
+    color: white;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 9px;
+  }
+
+  .section-rule {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  .add-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--surface);
+    border: 1.5px dashed var(--border-strong);
+    border-radius: var(--radius);
+    color: var(--text-mid);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .add-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+  /* ── GO/NO-GO SCORING ── */
+  .scoring-table { width: 100%; border-collapse: collapse; }
+  .scoring-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .scoring-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .scoring-table tr:last-child td { border-bottom: none; }
+  .scoring-table .cat-name { font-weight: 500; color: var(--text); }
+  .scoring-table .cat-why { color: var(--text-mid); font-size: 12px; line-height: 1.5; }
+
+  /* ── LIVE SCORE BAR ── */
+  .score-display {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 600;
+    line-height: 1;
+    min-width: 80px;
+  }
+  .score-bar-wrap { flex: 1; min-width: 160px; }
+  .score-bar-track {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease, background 0.3s;
+    width: 0%;
+    background: var(--accent);
+  }
+  .score-decision {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .decision-go { color: var(--green); }
+  .decision-conditional { color: var(--yellow); }
+  .decision-nobid { color: var(--red); }
+
+  /* ── ACTIONS ── */
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text-mid);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 12px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--text-mid); color: var(--text); }
+  .btn-print {
+    background: var(--text);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-print:hover { opacity: 0.85; }
+
+  /* ── OUTPUT ── */
+  #output-section { display: none; }
+  .print-actions { display: flex; gap: 12px; justify-content: flex-end; margin-bottom: 32px; }
+
+  .output-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .output-header {
+    padding: 36px 40px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .output-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 10px;
+  }
+  .output-project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .output-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .output-meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .output-meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+  .output-meta-value { font-size: 13px; font-weight: 500; }
+
+  .deliverable-output {
+    padding: 28px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .deliverable-output:last-of-type { border-bottom: none; }
+  .del-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .del-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .del-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .perspective-output-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 640px) {
+    .perspective-output-grid { grid-template-columns: 1fr; }
+    .deliverable-output { padding: 20px 24px; }
+    .output-header { padding: 24px; }
+  }
+
+  .p-out-field {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .p-out-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .p-out-label .badge {
+    background: var(--accent);
+    color: white;
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 8px;
+  }
+  .p-out-value { font-size: 13px; color: var(--text); line-height: 1.55; }
+
+  .del-meta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .del-meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .pill-risk-high { background: var(--red-bg); color: var(--red); }
+  .pill-risk-medium { background: var(--yellow-bg); color: var(--yellow); }
+  .pill-risk-low { background: var(--green-bg); color: var(--green); }
+  .pill-time { background: var(--accent-light); color: var(--accent); }
+
+  /* ── GO/NO-GO OUTPUT ── */
+  .gonogo-output {
+    padding: 28px 40px;
+    border-top: 1px solid var(--border);
+  }
+  .gonogo-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 16px;
+  }
+  .gonogo-score-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+  .gonogo-big-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .gonogo-decision-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+  }
+  .badge-go { background: var(--green-bg); color: var(--green); }
+  .badge-conditional { background: var(--yellow-bg); color: var(--yellow); }
+  .badge-nobid { background: var(--red-bg); color: var(--red); }
+
+  .gonogo-cats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  @media (max-width: 640px) { .gonogo-cats { grid-template-columns: 1fr; } }
+  .cat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    padding: 6px 10px;
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+  }
+  .cat-score-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .dot-1 { background: var(--red-bg); color: var(--red); }
+  .dot-2 { background: var(--yellow-bg); color: var(--yellow); }
+  .dot-3 { background: var(--green-bg); color: var(--green); }
+  .dot-0 { background: var(--surface-3); color: var(--text-light); }
+
+  /* ── SUMMARY BAR ── */
+  .summary-bar {
+    background: var(--text);
+    color: white;
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .summary-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
+  .summary-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+  }
+
+  .gut-check {
+    background: var(--gold-bg);
+    border: 1px solid #D4A820;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 24px;
+  }
+  .gut-check-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .gut-check p {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .note-block {
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    background: var(--accent-light);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; font-size: 12px; }
+    .main > *:not(#output-section) { display: none !important; }
+    #output-section { display: block !important; }
+    .print-actions { display: none !important; }
+    .output-card { box-shadow: none; }
+    .summary-bar { background: #1C1B18 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.35s ease forwards; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="eyebrow">Team Design Studios · AI-Augmented Practice · Est. 1999</div>
+  <h1>Accountability by Design</h1>
+  <p class="subtitle">A Proposal-Grade Work Breakdown Framework for Creative Practice</p>
+  <div class="field-tags">
+    <span class="field-tag">Understanding</span>
+    <span class="field-tag">Solution Compliance</span>
+    <span class="field-tag">Benefit</span>
+    <span class="field-tag">Proof Point</span>
+    <span class="field-tag">Gap to Watch</span>
+    <span class="field-tag">Estimated Time</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- FORM SECTION -->
+  <div id="form-section">
+
+    <!-- TAB NAV -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-project', this)">Project Info</button>
+      <button class="tab-btn" onclick="switchTab('tab-deliverables', this)">Deliverables</button>
+      <button class="tab-btn" onclick="switchTab('tab-gonogo', this)">Go / No-Go Scoring</button>
+    </div>
+
+    <!-- TAB: PROJECT INFO -->
+    <div class="tab-panel active" id="tab-project">
+      <div class="card">
+        <div class="card-title">Project Information</div>
+        <div class="form-grid">
+          <div class="form-grid form-grid-2">
+            <div class="field-group">
+              <label>Project Name <span class="required">*</span></label>
+              <input type="text" id="project-name" placeholder="e.g. Brand Identity System Redesign">
+            </div>
+            <div class="field-group">
+              <label>Client / Organization</label>
+              <input type="text" id="client-name" placeholder="e.g. Acme Corp">
+            </div>
+          </div>
+          <div class="form-grid form-grid-3">
+            <div class="field-group">
+              <label>Practitioner <span class="required">*</span></label>
+              <input type="text" id="practitioner-name" placeholder="e.g. Susan E. Aldridge">
+            </div>
+            <div class="field-group">
+              <label>Date</label>
+              <input type="text" id="project-date" placeholder="e.g. April 2026">
+            </div>
+            <div class="field-group">
+              <label>Contract / Project Type</label>
+              <select id="project-type">
+                <option value="">— Select —</option>
+                <option>Creative Services</option>
+                <option>UX Research & Design</option>
+                <option>Brand Identity</option>
+                <option>Government Contract (GovCon)</option>
+                <option>Digital Product Design</option>
+                <option>Consulting Engagement</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Project Objective <span class="hint">— What does success look like?</span></label>
+            <textarea id="project-objective" rows="3" placeholder="Describe the primary goal and intended outcome of this engagement..."></textarea>
+          </div>
+          <div class="form-grid form-grid-2">
+            <div class="field-group">
+              <label>Win Themes <span class="hint">— 3–5 specific reasons you win this</span></label>
+              <textarea id="win-themes" rows="3" placeholder="List your key differentiators for this engagement..."></textarea>
+            </div>
+            <div class="field-group">
+              <label>Known Gaps / Risks <span class="hint">— Be honest before you commit</span></label>
+              <textarea id="known-gaps" rows="3" placeholder="Surface capability gaps, dependencies, or concerns..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="note-block">
+          <strong>Built in collaboration with AI. Directed entirely by human judgment.</strong> Iterated through documented versions, each with a defined rationale for change. Grounded in GCA Government Contracting Academy proposal methodology.
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-primary" onclick="switchTab('tab-deliverables', document.querySelectorAll('.tab-btn')[1])">Next: Deliverables →</button>
+      </div>
+    </div>
+
+    <!-- TAB: DELIVERABLES -->
+    <div class="tab-panel" id="tab-deliverables">
+      <div class="card">
+        <div class="card-title">Deliverables</div>
+        <div class="card-subtitle">Each deliverable is defined across four GCA-grounded perspectives plus risk and time. This is your proposal before the proposal.</div>
+        <div id="deliverables-container"></div>
+        <button class="add-btn" onclick="addDeliverable()">+ Add Deliverable</button>
+      </div>
+      <div class="actions">
+        <button class="btn-secondary" onclick="switchTab('tab-project', document.querySelectorAll('.tab-btn')[0])">← Back</button>
+        <button class="btn-primary" onclick="switchTab('tab-gonogo', document.querySelectorAll('.tab-btn')[2])">Next: Go / No-Go →</button>
+      </div>
+    </div>
+
+    <!-- TAB: GO/NO-GO -->
+    <div class="tab-panel" id="tab-gonogo">
+      <div class="card">
+        <div class="card-title">Go / No-Go Self-Scoring Assessment</div>
+        <div class="card-subtitle">Score each category 1–3. Score of 1 = little/no alignment. Score of 2 = partial alignment. Score of 3 = strong, documented alignment. Maximum: 57 across 19 categories. Any score below 36 is a No-Bid.</div>
+
+        <!-- Live Score Display -->
+        <div class="score-display">
+          <div>
+            <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Live Score</div>
+            <div class="score-number" id="live-score">0</div>
+            <div style="font-size:11px;color:var(--text-light);">/ 57</div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-track">
+              <div class="score-bar-fill" id="score-bar"></div>
+            </div>
+            <div class="score-decision" id="score-decision">—</div>
+          </div>
+        </div>
+
+        <table class="scoring-table">
+          <thead>
+            <tr>
+              <th style="width:32px;">#</th>
+              <th>Category</th>
+              <th style="width:200px;">Score</th>
+            </tr>
+          </thead>
+          <tbody id="scoring-tbody"></tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button class="btn-secondary" onclick="switchTab('tab-deliverables', document.querySelectorAll('.tab-btn')[1])">← Back</button>
+        <button class="btn-secondary" onclick="clearAll()">Clear All</button>
+        <button class="btn-primary" onclick="generateOutput()">Generate Breakdown →</button>
+      </div>
+    </div>
+
+  </div><!-- /form-section -->
+
+  <!-- OUTPUT SECTION -->
+  <div id="output-section">
+    <div class="print-actions">
+      <button class="btn-secondary" onclick="editForm()">← Edit</button>
+      <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+    <div class="output-card" id="output-card"></div>
+
+    <div class="gut-check">
+      <div class="gut-check-label">Final Gut Check — Before You Submit</div>
+      <p>"Did we shred the RFP completely — build our team around the gaps — assign every section to an accountable author — review every section against the shred scorecard — address every SHALL, WILL, and MUST — price every CLIN — comply with every clause — meet every volume, page limit, and formatting rule — and can we perform every option period we may be asked to execute early — without inflating what we know, what we have, and who we are today?"</p>
+    </div>
+  </div>
+
+</main>
+
+<footer style="text-align:center;padding:32px 24px;font-size:12px;color:var(--text-light);border-top:1px solid var(--border);font-style:italic;">
+  Susan E. Aldridge · Founder & Principal, Team Design Studios / Eternal Graphx LLC (Est. 1999)
+</footer>
+
+<script>
+// ── SCORING CATEGORIES ────────────────────────────────────────────────────
+const SCORING_CATS = [
+  { id: 'past-perf', name: 'Past Performance', why: 'Contracting officers use past performance as a proxy for future risk. Without it, you are an unknown quantity — and unknowns do not win.' },
+  { id: 'core-comp', name: 'Core Competencies', why: 'Your proposal must prove you can do the work — not just that you understand it. Capability gaps visible to evaluators become scored weaknesses.' },
+  { id: 'workforce', name: 'Workforce & Capacity', why: 'Understaffing is the #1 execution risk contracting officers fear. Demonstrate capacity explicitly — do not assume they will infer it.' },
+  { id: 'compliance', name: 'Compliance & Reporting', why: 'Non-compliance with reporting requirements is a contract vehicle for termination. Show your systems are already in place.' },
+  { id: 'partners', name: 'Partnerships & Gaps', why: 'A name on a form is not a team. Evaluators look for documented experience, clear roles, and committed capacity from every partner.' },
+  { id: 'financial', name: 'Financial Readiness', why: 'Government contracts pay Net 30+ after invoice. If you cannot bridge that gap, you cannot perform — and evaluators know it.' },
+  { id: 'pricing', name: 'Section B Pricing — CLINs & Option Periods', why: 'Incomplete or ambiguous pricing is a compliance failure. Option periods executed early at last year\'s rates will compress your revenue and margins.' },
+  { id: 'option-period', name: 'Option Period Strategy', why: 'Understanding of ceiling, obligation vs. burn, early execution risk, and extension opportunity separates experienced contractors from those who leave money on the table.' },
+  { id: 'sec-c', name: 'Section C Alignment', why: 'The evaluator\'s scorecard almost always follows Section C. If your proposal does not mirror that structure, you are making the evaluator work — and they will penalize you for it.' },
+  { id: 'shall-will', name: 'SHALL / WILL / MUST Coverage', why: 'Missing a single SHALL can render your proposal non-compliant. One unchecked requirement costs you the contract — regardless of how strong the rest of your proposal is.' },
+  { id: 'sec-dk', name: 'Sections D–K Review', why: 'Section H is the most dangerous section in any RFP. It may contain unique requirements that will disqualify you if missed. Read every word.' },
+  { id: 'sec-l-roi', name: 'Section L ROI', why: 'Section L is your ROI calculator. If a small contract demands six volumes, 40 pages, and 5 past performance references — walk away. The math will not work.' },
+  { id: 'vol-struct', name: 'Section L Volume Structure', why: 'Exceeding page limits gets pages deleted from the back. Missing required volumes can disqualify the entire proposal. Know the structure before you write a word.' },
+  { id: 'formatting', name: 'Section L Formatting Compliance', why: 'Formatting non-compliance is the most avoidable disqualifier in government contracting — and one of the most common. Check every requirement before submission.' },
+  { id: 'shred', name: 'RFP Shred Complete', why: 'You cannot be compliant without shredding. You cannot win without being compliant. The shred is not a step you do after writing — it is the step that makes writing possible.' },
+  { id: 'bid-team', name: 'Bid Team Partnering', why: 'Your bid team is your proposal\'s infrastructure. Every gap covered by a credible partner raises your technical score and lowers your evaluated risk.' },
+  { id: 'outline', name: 'Proposal Outline Built from Shred', why: 'A proposal written without an outline built from the shred is a proposal written without a map. You will miss requirements, misalign sections, and waste time re-writing.' },
+  { id: 'writing', name: 'Writing Assignments Complete', why: 'Unassigned sections do not get written. Sections written without content guidance do not address requirements. Accountability and specificity are non-negotiable.' },
+  { id: 'review', name: 'Proposal Review Scorecard Used', why: 'A proposal that was never reviewed against the shred is a proposal that was never actually checked for compliance. The review scorecard IS the compliance checkpoint.' },
+];
+
+let deliverableCount = 0;
+const scores = {};
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── SCORING TABLE ─────────────────────────────────────────────────────────
+function buildScoringTable() {
+  const tbody = document.getElementById('scoring-tbody');
+  SCORING_CATS.forEach((cat, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--text-light);font-family:'DM Mono',monospace;font-size:11px;">${i+1}</td>
+      <td>
+        <div class="cat-name">${cat.name}</div>
+        <div class="cat-why">${cat.why}</div>
+      </td>
+      <td>
+        <div class="score-selector" id="score-sel-${cat.id}">
+          <div class="score-opt" onclick="setScore('${cat.id}', 1, this)" data-val="1">1<br><span style="font-size:10px;font-weight:300;">Low</span></div>
+          <div class="score-opt" onclick="setScore('${cat.id}', 2, this)" data-val="2">2<br><span style="font-size:10px;font-weight:300;">Partial</span></div>
+          <div class="score-opt" onclick="setScore('${cat.id}', 3, this)" data-val="3">3<br><span style="font-size:10px;font-weight:300;">Strong</span></div>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function setScore(catId, val, el) {
+  scores[catId] = val;
+  const sel = document.getElementById(`score-sel-${catId}`);
+  sel.querySelectorAll('.score-opt').forEach(o => {
+    o.classList.remove('selected-1','selected-2','selected-3');
+  });
+  el.classList.add(`selected-${val}`);
+  updateLiveScore();
+}
+
+function updateLiveScore() {
+  const total = Object.values(scores).reduce((a,b) => a+b, 0);
+  document.getElementById('live-score').textContent = total;
+  const pct = (total / 57) * 100;
+  const bar = document.getElementById('score-bar');
+  const dec = document.getElementById('score-decision');
+  bar.style.width = pct + '%';
+  if (total >= 50) {
+    bar.style.background = 'var(--green)';
+    dec.textContent = '★ Strong Go';
+    dec.className = 'score-decision decision-go';
+  } else if (total >= 36) {
+    bar.style.background = 'var(--yellow)';
+    dec.textContent = 'Conditional Go';
+    dec.className = 'score-decision decision-conditional';
+  } else if (total > 0) {
+    bar.style.background = 'var(--red)';
+    dec.textContent = 'No-Bid';
+    dec.className = 'score-decision decision-nobid';
+  } else {
+    bar.style.background = 'var(--accent)';
+    dec.textContent = '—';
+    dec.className = 'score-decision';
+  }
+}
+
+// ── DELIVERABLES ──────────────────────────────────────────────────────────
+function addDeliverable() {
+  deliverableCount++;
+  const n = deliverableCount;
+  const container = document.getElementById('deliverables-container');
+  const block = document.createElement('div');
+  block.className = 'deliverable-block fade-up';
+  block.id = `del-block-${n}`;
+  block.innerHTML = `
+    <div class="deliverable-number">Deliverable ${n}</div>
+    ${n > 1 ? `<button class="remove-btn" onclick="removeDeliverable(${n})">Remove</button>` : ''}
+    <div class="field-group">
+      <label>Deliverable Name <span class="required">*</span></label>
+      <input type="text" id="del-name-${n}" placeholder="e.g. User Research Synthesis Report">
+    </div>
+    <div class="section-rule"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">4-Perspective Template — GCA Methodology</div>
+    <div class="perspective-grid">
+      <div class="perspective-field">
+        <div class="perspective-label"><span class="p-num">1</span> Understanding</div>
+        <textarea id="del-understanding-${n}" rows="2" placeholder="What does the client/customer actually need from this deliverable?"></textarea>
+      </div>
+      <div class="perspective-field">
+        <div class="perspective-label"><span class="p-num">2</span> Solution Compliance</div>
+        <textarea id="del-compliance-${n}" rows="2" placeholder="Does your approach meet every stated and implied requirement?"></textarea>
+      </div>
+      <div class="perspective-field">
+        <div class="perspective-label"><span class="p-num">3</span> Benefit</div>
+        <textarea id="del-benefit-${n}" rows="2" placeholder="What does the client gain? What measurable outcome does this produce?"></textarea>
+      </div>
+      <div class="perspective-field">
+        <div class="perspective-label"><span class="p-num">4</span> Proof Point</div>
+        <textarea id="del-proof-${n}" rows="2" placeholder="What evidence proves you can deliver this? Past work, credentials, methodology?"></textarea>
+      </div>
+    </div>
+    <div class="section-rule"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Risk & Time</div>
+    <div class="form-grid form-grid-3" style="gap:12px;">
+      <div class="field-group">
+        <label>Gap to Watch <span class="hint">— Known unknowns</span></label>
+        <textarea id="del-gap-${n}" rows="2" placeholder="Surface dependencies, risks, or vulnerabilities..."></textarea>
+      </div>
+      <div class="field-group">
+        <label>Risk Level</label>
+        <select id="del-risk-${n}">
+          <option value="">— Select —</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Estimated Time <span class="hint">— hours</span></label>
+        <input type="number" id="del-time-${n}" placeholder="e.g. 8" min="0" step="0.5">
+      </div>
+    </div>
+  `;
+  container.appendChild(block);
+}
+
+function removeDeliverable(n) {
+  const block = document.getElementById(`del-block-${n}`);
+  if (block) block.remove();
+}
+
+// ── GENERATE OUTPUT ───────────────────────────────────────────────────────
+function generateOutput() {
+  const projectName  = document.getElementById('project-name').value.trim();
+  const clientName   = document.getElementById('client-name').value.trim();
+  const practitioner = document.getElementById('practitioner-name').value.trim();
+  const date         = document.getElementById('project-date').value.trim();
+  const objective    = document.getElementById('project-objective').value.trim();
+  const winThemes    = document.getElementById('win-themes').value.trim();
+  const knownGaps    = document.getElementById('known-gaps').value.trim();
+  const projType     = document.getElementById('project-type').value;
+
+  if (!projectName || !practitioner) {
+    alert('Please complete Project Name and Practitioner Name before generating.');
+    return;
+  }
+
+  const blocks = document.querySelectorAll('.deliverable-block');
+  if (blocks.length === 0) {
+    alert('Please add at least one deliverable.');
+    return;
+  }
+
+  let deliverables = [];
+  let totalTime = 0;
+  let idx = 1;
+
+  blocks.forEach(block => {
+    const id = block.id.replace('del-block-', '');
+    const name          = (document.getElementById(`del-name-${id}`)?.value || '').trim();
+    const understanding = (document.getElementById(`del-understanding-${id}`)?.value || '').trim();
+    const compliance    = (document.getElementById(`del-compliance-${id}`)?.value || '').trim();
+    const benefit       = (document.getElementById(`del-benefit-${id}`)?.value || '').trim();
+    const proof         = (document.getElementById(`del-proof-${id}`)?.value || '').trim();
+    const gap           = (document.getElementById(`del-gap-${id}`)?.value || '').trim();
+    const risk          = (document.getElementById(`del-risk-${id}`)?.value || '');
+    const time          = parseFloat(document.getElementById(`del-time-${id}`)?.value || 0) || 0;
+    if (name) {
+      totalTime += time;
+      deliverables.push({ idx: idx++, name, understanding, compliance, benefit, proof, gap, risk, time });
+    }
+  });
+
+  if (deliverables.length === 0) {
+    alert('Please name at least one deliverable.');
+    return;
+  }
+
+  // Go/No-Go
+  const totalScore = Object.values(scores).reduce((a,b)=>a+b,0);
+  const maxScore = 57;
+  let decisionLabel = '—';
+  let decisionClass = '';
+  let decisionAction = '';
+  if (totalScore >= 50) {
+    decisionLabel = '★ Strong Go';
+    decisionClass = 'badge-go';
+    decisionAction = 'Proceed with full proposal development. Assign resources and begin immediately.';
+  } else if (totalScore >= 36) {
+    decisionLabel = 'Conditional Go';
+    decisionClass = 'badge-conditional';
+    decisionAction = 'Identify and resolve gaps through teaming, subcontracting, or capability building before committing.';
+  } else if (totalScore > 0) {
+    decisionLabel = 'No-Bid';
+    decisionClass = 'badge-nobid';
+    decisionAction = 'Pass on this opportunity. Protect your reputation and invest resources in a better-aligned engagement.';
+  }
+
+  // Deliverable HTML
+  let delHTML = '';
+  deliverables.forEach(d => {
+    const riskClass = d.risk === 'High' ? 'pill-risk-high' : d.risk === 'Medium' ? 'pill-risk-medium' : d.risk === 'Low' ? 'pill-risk-low' : '';
+    delHTML += `
+      <div class="deliverable-output">
+        <div class="del-header">
+          <span class="del-num">Deliverable ${d.idx}</span>
+          <span class="del-name">${d.name}</span>
+        </div>
+        <div class="perspective-output-grid">
+          ${d.understanding ? `<div class="p-out-field"><div class="p-out-label"><span class="badge">1</span>Understanding</div><div class="p-out-value">${d.understanding}</div></div>` : ''}
+          ${d.compliance    ? `<div class="p-out-field"><div class="p-out-label"><span class="badge">2</span>Solution Compliance</div><div class="p-out-value">${d.compliance}</div></div>` : ''}
+          ${d.benefit       ? `<div class="p-out-field"><div class="p-out-label"><span class="badge">3</span>Benefit</div><div class="p-out-value">${d.benefit}</div></div>` : ''}
+          ${d.proof         ? `<div class="p-out-field"><div class="p-out-label"><span class="badge">4</span>Proof Point</div><div class="p-out-value">${d.proof}</div></div>` : ''}
+          ${d.gap           ? `<div class="p-out-field"><div class="p-out-label">Gap to Watch</div><div class="p-out-value">${d.gap}</div></div>` : ''}
+        </div>
+        <div class="del-meta-row">
+          ${d.risk ? `<span class="del-meta-pill ${riskClass}">Risk: ${d.risk}</span>` : ''}
+          ${d.time ? `<span class="del-meta-pill pill-time">⏱ ${d.time} hrs</span>` : ''}
+        </div>
+      </div>
+    `;
+  });
+
+  // Go/No-Go scored cats
+  let catsHTML = '';
+  if (totalScore > 0) {
+    SCORING_CATS.forEach((cat, i) => {
+      const s = scores[cat.id] || 0;
+      const dotClass = s === 0 ? 'dot-0' : `dot-${s}`;
+      catsHTML += `<div class="cat-row"><div class="cat-score-dot ${dotClass}">${s || '—'}</div><div style="font-size:12px;">${cat.name}</div></div>`;
+    });
+  }
+
+  const outputCard = document.getElementById('output-card');
+  outputCard.innerHTML = `
+    <div class="output-header">
+      <div class="output-eyebrow">Accountability by Design · Work Breakdown Framework · Team Design Studios</div>
+      <div class="output-project-title">${projectName}</div>
+      ${objective ? `<p style="font-size:13.5px;color:var(--text-mid);margin-top:8px;line-height:1.6;">${objective}</p>` : ''}
+      <div class="output-meta">
+        ${practitioner ? `<div class="output-meta-item"><div class="output-meta-label">Practitioner</div><div class="output-meta-value">${practitioner}</div></div>` : ''}
+        ${clientName   ? `<div class="output-meta-item"><div class="output-meta-label">Client</div><div class="output-meta-value">${clientName}</div></div>` : ''}
+        ${projType     ? `<div class="output-meta-item"><div class="output-meta-label">Type</div><div class="output-meta-value">${projType}</div></div>` : ''}
+        ${date         ? `<div class="output-meta-item"><div class="output-meta-label">Date</div><div class="output-meta-value">${date}</div></div>` : ''}
+        <div class="output-meta-item"><div class="output-meta-label">Deliverables</div><div class="output-meta-value">${deliverables.length}</div></div>
+        ${totalTime > 0 ? `<div class="output-meta-item"><div class="output-meta-label">Total Hours</div><div class="output-meta-value">${totalTime}</div></div>` : ''}
+      </div>
+      ${winThemes ? `<div style="margin-top:16px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Win Themes</div><p style="font-size:13px;color:var(--text-mid);line-height:1.6;">${winThemes}</p></div>` : ''}
+      ${knownGaps ? `<div style="margin-top:12px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Known Gaps</div><p style="font-size:13px;color:var(--text-mid);line-height:1.6;">${knownGaps}</p></div>` : ''}
+    </div>
+
+    ${delHTML}
+
+    ${totalScore > 0 ? `
+    <div class="gonogo-output">
+      <div class="gonogo-title">Go / No-Go Self-Scoring Assessment</div>
+      <div class="gonogo-score-row">
+        <div class="gonogo-big-score">${totalScore}<span style="font-size:1.2rem;opacity:0.4;">/${maxScore}</span></div>
+        <div class="gonogo-decision-badge ${decisionClass}">${decisionLabel}</div>
+      </div>
+      <p style="font-size:13px;color:var(--text-mid);margin-bottom:16px;">${decisionAction}</p>
+      <div class="gonogo-cats">${catsHTML}</div>
+    </div>` : ''}
+
+    <div class="summary-bar">
+      <div>
+        <div class="summary-label">Total Estimated Time</div>
+        <div class="summary-value">${totalTime > 0 ? totalTime + ' hours' : '—'}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="summary-label">Generated</div>
+        <div class="summary-value" style="font-size:1rem;">${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('form-section').style.display = 'none';
+  document.getElementById('output-section').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function editForm() {
+  document.getElementById('form-section').style.display = 'block';
+  document.getElementById('output-section').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function clearAll() {
+  if (!confirm('Clear all fields and start over?')) return;
+  ['project-name','client-name','practitioner-name','project-date','project-objective','win-themes','known-gaps'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('project-type').value = '';
+  document.getElementById('deliverables-container').innerHTML = '';
+  deliverableCount = 0;
+  Object.keys(scores).forEach(k => delete scores[k]);
+  document.querySelectorAll('.score-opt').forEach(o => o.classList.remove('selected-1','selected-2','selected-3'));
+  updateLiveScore();
+  addDeliverable();
+  switchTab('tab-project', document.querySelectorAll('.tab-btn')[0]);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+buildScoringTable();
+addDeliverable();
+</script>
+</body>
+</html>
