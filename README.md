@@ -136,7 +136,7 @@ Related work:
 
 If this framework has been useful for your GovCon pursuits, consider buying me a coffee. It helps me keep building open source tools for the design and GovCon community.
 
-☕ [Buy Me a Coffee](https://buymeacoffee.com/teamdesignstudios)
+https://studio.buymeacoffee.com/stream-alert/page/teamdesignstudios?user_key=1eb3c2ad-2b3f-4ed7-b3d1-52abbf58e8cb
 
 ---
 
