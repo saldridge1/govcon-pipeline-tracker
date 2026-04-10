@@ -136,7 +136,10 @@ Related work:
 
 If this framework has been useful for your GovCon pursuits, consider buying me a coffee. It helps me keep building open source tools for the design and GovCon community.
 
-https://studio.buymeacoffee.com/stream-alert/page/teamdesignstudios?user_key=1eb3c2ad-2b3f-4ed7-b3d1-52abbf58e8cb
+<a href="https://buymeacoffee.com/teamdesignstudios" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-black.png" 
+  alt="Buy Me A Coffee" width="200">
+</a>
 
 ---
 
