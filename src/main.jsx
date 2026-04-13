@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import GovConPipeline from './GovConPipelineTracker'
+import GovConReady from './GovConReady'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GovConPipeline />
+    <GovConReady />
   </React.StrictMode>
 )
