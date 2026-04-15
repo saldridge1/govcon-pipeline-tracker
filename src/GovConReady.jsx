@@ -59,10 +59,10 @@ const evc = (b) => b.pwin * b.value * 0.15;
 const navBtn = (isOn) => ({
   all: "unset",
   fontFamily: "monospace",
-  fontSize: 11,
-  letterSpacing: "0.08em",
+  fontSize: 10,
+  letterSpacing: "0.07em",
   textTransform: "uppercase",
-  padding: "10px 13px",
+  padding: "9px 11px",
   cursor: "pointer",
   whiteSpace: "nowrap",
   display: "flex",
@@ -119,6 +119,36 @@ export default function GovConReady() {
 
   const getPS = (id) => partnerScores[id] || { you: {}, partner: {} };
   const setPS = (id, s) => setPartnerScores((p) => ({ ...p, [id]: s }));
+
+  const [shredRows, setShredRows] = useState([
+    { id: 1, section: "Section L", req: "Cover letter 2 pages max", type: "Format", done: false },
+    { id: 2, section: "Section C", req: "Design deliverables meet SOW specifications", type: "Technical", done: false },
+    { id: 3, section: "Section B", req: "All CLINs priced separately", type: "Pricing", done: false },
+    { id: 4, section: "Section L", req: "Past performance references — 3 required", type: "Format", done: false },
+    { id: 5, section: "Section C", req: "Key personnel resumes included", type: "Technical", done: false },
+    { id: 6, section: "Section H", req: "Rights in data clause acknowledged", type: "Compliance", done: false },
+  ]);
+  const [shredAiTxt, setShredAiTxt] = useState("");
+  const [shredAiLoad, setShredAiLoad] = useState(false);
+
+  const getShredAI = async (naics) => {
+    setShredAiLoad(true); setShredAiTxt("");
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: "You are a federal GovCon proposal expert. Be concise and specific.",
+          messages: [{ role: "user", content: `Shredding an RFP for NAICS ${naics}. What are the 3 most commonly missed implied requirements for this NAICS type that I should add to my shred matrix?` }]
+        })
+      });
+      const data = await res.json();
+      setShredAiTxt(data.content?.[0]?.text || "Unable to generate guidance.");
+    } catch { setShredAiTxt("Unable to connect."); }
+    setShredAiLoad(false);
+  };
 
   const navStyles = `
     .gcr-nb { position: relative; overflow: hidden; transition: background 0.2s; }
@@ -428,35 +458,72 @@ export default function GovConReady() {
 
   const renderShred = () => {
     const opp = getOpp();
-    const rows = [["Section L", "Cover letter 2 pages max", "Format"], ["Section C", "Design deliverables meet SOW", "Technical"], ["Section B", "All CLINs priced separately", "Pricing"], ["Section L", "Past performance — 3 refs required", "Format"], ["Section H", "Rights in data clause acknowledged", "Compliance"], ["Section C", "Technical approach narrative", "SME Required"]];
+    const allDone = shredRows.every((r) => r.done);
+    const doneCnt = shredRows.filter((r) => r.done).length;
+    const SECTIONS = ["Section B", "Section C", "Section L", "Section H", "Section J", "Q&A", "Amendment"];
+    const TYPES = ["Format", "Technical", "Pricing", "Admin", "Compliance", "SME Required"];
     return (
       <div>
-        <div style={alertStyle("b")}><strong>Shredding:</strong> {opp.name}</div>
-        <div style={{ background: "#1C1B18", borderRadius: 8, padding: "11px 14px", marginBottom: 14 }}>
-          <div style={{ fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 4 }}>The BLUF</div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>You cannot win unless you are compliant. You cannot be compliant unless you shred the RFP. Every requirement must have a corresponding response in your proposal.</div>
-        </div>
-        <div style={card}>
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 400 }}>
-              <thead><tr style={{ borderBottom: "0.5px solid var(--color-border-tertiary, #e2e0d8)" }}>
-                {["#", "Section", "Requirement", "Type", "Done"].map((h) => <th key={h} style={{ textAlign: "left", padding: "6px 8px", fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: "var(--color-text-secondary, #8c8a82)" }}>{h}</th>)}
-              </tr></thead>
-              <tbody>
-                {rows.map((r, i) => (
-                  <tr key={i} style={{ borderBottom: "0.5px solid var(--color-border-tertiary, #e2e0d8)" }}>
-                    <td style={{ padding: "6px 8px", color: "var(--color-text-secondary, #8c8a82)", fontFamily: "monospace", fontSize: 10 }}>{i + 1}</td>
-                    <td style={{ padding: "6px 8px", fontFamily: "monospace", fontSize: 10 }}>{r[0]}</td>
-                    <td style={{ padding: "6px 8px" }}>{r[1]}</td>
-                    <td style={{ padding: "6px 8px" }}><span style={{ background: r[2] === "SME Required" ? "#FFF8ED" : r[2] === "Technical" ? "#EEF2FC" : "#F4F3EF", color: r[2] === "SME Required" ? "#854F0B" : r[2] === "Technical" ? "#185FA5" : "#8c8a82", fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", padding: "2px 7px", borderRadius: 3 }}>{r[2]}</span></td>
-                    <td style={{ padding: "6px 8px", textAlign: "center" }}><input type="checkbox" /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8, marginBottom: 14 }}>
+          <div style={{ background: "#EEF2FC", border: "1px solid #C7D7F8", borderRadius: 8, padding: "10px 13px" }}>
+            <div style={{ fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: "#185FA5", marginBottom: 3 }}>Active opportunity</div>
+            <div style={{ fontWeight: 500, fontSize: 12, color: "#1C1B18" }}>{opp.name}</div>
+          </div>
+          <div style={{ background: "var(--color-background-secondary, #f4f3ef)", border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 8, padding: "10px 13px" }}>
+            <div style={{ fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: "var(--color-text-secondary, #8c8a82)", marginBottom: 3 }}>Requirements</div>
+            <div style={{ fontWeight: 500, fontSize: 12, color: "var(--color-text-primary, #1c1b18)" }}>{shredRows.length} documented · {doneCnt} addressed</div>
+          </div>
+          <div style={{ background: allDone ? "#EAF3DE" : "#FFF8ED", border: `0.5px solid ${allDone ? "#C0DD97" : "#FAC775"}`, borderRadius: 8, padding: "10px 13px" }}>
+            <div style={{ fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: allDone ? "#3B6D11" : "#854F0B", marginBottom: 3 }}>Shred status</div>
+            <div style={{ fontWeight: 500, fontSize: 12, color: allDone ? "#3B6D11" : "#854F0B" }}>{allDone ? "Complete" : "In progress"}</div>
           </div>
         </div>
-        <button style={{ background: "var(--color-background-primary, #fff)", border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 6, padding: "6px 12px", cursor: "pointer", fontSize: 11, fontFamily: "monospace", textTransform: "uppercase", color: "var(--color-text-secondary, #8c8a82)", marginTop: 8 }}>+ Add row</button>
+        <div style={{ background: "#1C1B18", borderRadius: 8, padding: "12px 14px", marginBottom: 14 }}>
+          <div style={{ fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 4 }}>The BLUF</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>You cannot win unless you are compliant with the RFP. You cannot be compliant unless you shred the RFP. Every requirement in the shred must have a corresponding response in your proposal.</div>
+        </div>
+        <div style={{ ...card, overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 560 }}>
+            <thead><tr style={{ borderBottom: "0.5px solid var(--color-border-tertiary, #e2e0d8)" }}>
+              {["#", "Section", "Requirement / Instruction", "Type", "Addressed"].map((h) => (
+                <th key={h} style={{ textAlign: "left", padding: "7px 8px", fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: "var(--color-text-secondary, #8c8a82)" }}>{h}</th>
+              ))}
+            </tr></thead>
+            <tbody>
+              {shredRows.map((r, i) => (
+                <tr key={r.id} style={{ borderBottom: "0.5px solid var(--color-border-tertiary, #e2e0d8)", background: r.done ? "#FAFFFE" : "var(--color-background-primary, #fff)" }}>
+                  <td style={{ padding: "6px 8px", color: "var(--color-text-secondary, #8c8a82)", fontFamily: "monospace", fontSize: 10 }}>{i + 1}</td>
+                  <td style={{ padding: "6px 8px" }}>
+                    <select value={r.section} onChange={(e) => setShredRows((prev) => prev.map((row, idx) => idx === i ? { ...row, section: e.target.value } : row))} style={{ border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 4, padding: "4px 7px", fontSize: 11, color: "var(--color-text-primary, #1c1b18)", background: "var(--color-background-primary, #fff)" }}>
+                      {SECTIONS.map((s) => <option key={s}>{s}</option>)}
+                    </select>
+                  </td>
+                  <td style={{ padding: "6px 8px" }}>
+                    <input value={r.req} onChange={(e) => setShredRows((prev) => prev.map((row, idx) => idx === i ? { ...row, req: e.target.value } : row))} placeholder="Enter requirement or instruction..." style={{ border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 4, padding: "4px 7px", fontSize: 11, color: "var(--color-text-primary, #1c1b18)", background: "var(--color-background-primary, #fff)", width: "100%", minWidth: 160 }} />
+                  </td>
+                  <td style={{ padding: "6px 8px" }}>
+                    <select value={r.type} onChange={(e) => setShredRows((prev) => prev.map((row, idx) => idx === i ? { ...row, type: e.target.value } : row))} style={{ border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 4, padding: "4px 7px", fontSize: 11, color: "var(--color-text-primary, #1c1b18)", background: "var(--color-background-primary, #fff)" }}>
+                      {TYPES.map((t) => <option key={t}>{t}</option>)}
+                    </select>
+                  </td>
+                  <td style={{ padding: "6px 8px", textAlign: "center" }}>
+                    <input type="checkbox" checked={r.done} onChange={(e) => setShredRows((prev) => prev.map((row, idx) => idx === i ? { ...row, done: e.target.checked } : row))} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14, marginTop: 4 }}>
+          <button onClick={() => setShredRows((prev) => [...prev, { id: Date.now(), section: "Section C", req: "", type: "Technical", done: false }])} style={{ background: "var(--color-background-primary, #fff)", border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 6, padding: "6px 12px", cursor: "pointer", fontSize: 11, fontFamily: "monospace", textTransform: "uppercase", color: "var(--color-text-secondary, #8c8a82)" }}>+ Add row</button>
+          <button onClick={() => getShredAI(opp.naics)} style={{ background: "var(--color-background-primary, #fff)", border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 6, padding: "6px 12px", cursor: "pointer", fontSize: 11, fontFamily: "monospace", textTransform: "uppercase", color: "#185FA5" }}>AI shred assist ↗</button>
+        </div>
+        {shredAiLoad && <div style={alertStyle("b")}>Analyzing RFP patterns for this NAICS...</div>}
+        {shredAiTxt && <div style={{ background: "var(--color-background-secondary, #f4f3ef)", border: "0.5px solid var(--color-border-tertiary, #e2e0d8)", borderRadius: 8, padding: "11px 13px", marginBottom: 14, fontSize: 12, lineHeight: 1.65, color: "var(--color-text-primary, #1c1b18)" }}>{shredAiTxt}</div>}
+        <div style={{ background: "#1C1B18", borderRadius: 10, padding: "14px 16px", marginTop: 4 }}>
+          <div style={{ fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 6 }}>Final gut check — before you write a single word</div>
+          <div style={{ fontSize: 13, color: "#fff", lineHeight: 1.65, fontStyle: "italic" }}>"Can we deliver on every promise in this proposal without inflating what we know, what we have, and who we are today?"</div>
+        </div>
       </div>
     );
   };
@@ -485,7 +552,7 @@ export default function GovConReady() {
         <div style={{ display: "flex", borderTop: "1px solid rgba(255,255,255,0.15)", overflowX: "auto", gap: 0 }}>
           {TABS.map((t) => (
             <button key={t.id} className={`gcr-nb${curTab === t.id ? " on" : ""}`} style={navBtn(curTab === t.id)} onClick={() => setCurTab(t.id)}>
-              {t.icon ? <span style={{ color: "#fff", fontSize: 8 }}>{t.icon}</span> : <span style={{ color: "#EF9F27", fontSize: 8, fontWeight: 600 }}>{t.num}</span>}
+              {t.icon ? <span style={{ color: "#fff", fontSize: 11 }}>{t.icon}</span> : <span style={{ color: "#EF9F27", fontSize: 11, fontWeight: 600 }}>{t.num}</span>}
               <span style={{ color: "#fff" }}>{t.label}</span>
             </button>
           ))}
