@@ -59,10 +59,10 @@ const evc = (b) => b.pwin * b.value * 0.15;
 const navBtn = (isOn) => ({
   all: "unset",
   fontFamily: "monospace",
-  fontSize: 6,
-  letterSpacing: "0.05em",
+  fontSize: 11,
+  letterSpacing: "0.08em",
   textTransform: "uppercase",
-  padding: "6px 7px",
+  padding: "10px 13px",
   cursor: "pointer",
   whiteSpace: "nowrap",
   display: "flex",
